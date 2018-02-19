@@ -64,7 +64,13 @@ module.exports = {
     }),
   ].concat(
     isProduction
-      ? [new webpack.optimize.UglifyJsPlugin(),]
+      ?
+      [
+        new webpack.DefinePlugin({
+          'process.env.NODE_ENV': '"production"',
+        }),
+        new webpack.optimize.UglifyJsPlugin()
+      ]
       : [
         // Force writing the HTML files to disk when running in the development mode
         // (otherwise, webpack-dev-server won’t serve the app)
