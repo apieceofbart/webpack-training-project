@@ -11,7 +11,6 @@
  * limitations under the License.
  */
 
-import moment from 'moment/moment';
 import createPlainComponent from '../../utils/createPlainComponent';
 
 const render = target => {
@@ -24,10 +23,12 @@ const render = target => {
   const element = renderHeader(target);
 
   // Init interactivity
-  const release = moment([2018, 3, 1]);
+  const release = new Date("04-01-2018")
+
   const updateDate = () => {
-    const time = release.diff(moment(), 'seconds', true);
-    element.querySelector('.home-header__time').textContent = time.toFixed(3);
+    const now = new Date();
+    const time = release.getTime() - now.getTime();
+    element.querySelector('.home-header__time').textContent = time / 1000;
 
     // requestAnimationFrame would call updateDate() as soon as the frame changes
     requestAnimationFrame(updateDate);
