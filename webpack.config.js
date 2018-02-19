@@ -14,6 +14,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -60,12 +61,12 @@ module.exports = {
     }),
   ].concat(
     isProduction
-      ? []
+      ? [new webpack.optimize.UglifyJsPlugin(),]
       : [
-          // Force writing the HTML files to disk when running in the development mode
-          // (otherwise, webpack-dev-server won’t serve the app)
-          new HtmlWebpackHarddiskPlugin(),
-        ],
+        // Force writing the HTML files to disk when running in the development mode
+        // (otherwise, webpack-dev-server won’t serve the app)
+        new HtmlWebpackHarddiskPlugin(),
+      ],
   ),
   devServer: {
     contentBase: path.join(__dirname, 'public'),
